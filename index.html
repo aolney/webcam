@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Webcam Mirror</title>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <!-- <script src="../../../js/lib/ga.js"></script> -->
+ </head>
+ <body>
+
+<select id="source"></select>
+<video id="webcam" controls muted autoplay style="outline:none; width:100%; height:100%;"></video>
+
+<script type="text/javascript">
+// the webcam
+const webcam = document.querySelector('#webcam');
+// the selector
+const source = document.querySelector('#source');
+
+//check what devices are available and put them in the selector dropdown
+function addDevices(devices) {
+        devices.forEach(function(device) {
+            console.log(device);
+            if (device.kind === 'videoinput') {
+                const option = document.createElement('option');
+                option.text = device.deviceId; 
+                source.append(option);
+            }
+        });
+    }
+navigator.mediaDevices.enumerateDevices().then(addDevices)
+
+function mirror() {
+    //use default camera until one is selected
+    let constraints = {facingMode: "user" }
+    if(source.value != "") {
+        constraints = {deviceId: source.value }
+    }
+    window.navigator.mediaDevices.getUserMedia({ video: constraints, audio: false })
+    .then(stream => {
+        webcam.srcObject = stream;
+        webcam.play();
+    })
+    .catch(error => {
+        alert(error);
+    });
+}
+
+source.onchange = mirror();
+mirror();
+
+// Simple version: no explicit camera selection. Will attempt user-facing camera first but roll off to other cameras if that fails
+// const webcam = document.querySelector('#webcam');
+//  window.navigator.mediaDevices.getUserMedia({ video: {facingMode: "user" }, audio: false })
+//         .then(stream => {
+//             webcam.srcObject = stream;
+//             webcam.play();
+//     	})
+//         .catch(error => {
+//         	alert(error);
+//     	});
+
+  </script>
+ </body>
+</html>
+
