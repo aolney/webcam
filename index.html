@@ -3,8 +3,6 @@
  <head>
   <meta charset="UTF-8">
   <title>Webcam Mirror</title>
-  <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
-  <!-- <script src="../../../js/lib/ga.js"></script> -->
  </head>
  <body>
 
@@ -46,7 +44,6 @@ function mirror() {
     window.navigator.mediaDevices.getUserMedia({ video: constraints, audio: false })
     .then(stream => {
         webcam.srcObject = stream;
-        // webcam.play();
     })
     .catch(error => {
         alert(error);
