@@ -46,7 +46,7 @@ function mirror() {
     window.navigator.mediaDevices.getUserMedia({ video: constraints, audio: false })
     .then(stream => {
         webcam.srcObject = stream;
-        webcam.play();
+        // webcam.play();
     })
     .catch(error => {
         alert(error);
@@ -55,17 +55,6 @@ function mirror() {
 
 source.onchange = mirror();
 mirror();
-
-// Simple version: no explicit camera selection. Will attempt user-facing camera first but roll off to other cameras if that fails
-// const webcam = document.querySelector('#webcam');
-//  window.navigator.mediaDevices.getUserMedia({ video: {facingMode: "user" }, audio: false })
-//         .then(stream => {
-//             webcam.srcObject = stream;
-//             webcam.play();
-//     	})
-//         .catch(error => {
-//         	alert(error);
-//     	});
 
   </script>
  </body>
