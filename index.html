@@ -23,7 +23,8 @@ function addDevices(devices) {
             console.log(device);
             if (device.kind === 'videoinput') {
                 const option = document.createElement('option');
-                option.text = device.deviceId; 
+                option.text = device.label;
+                option.value = device.deviceId; 
                 source.append(option);
             }
         });
@@ -31,6 +32,12 @@ function addDevices(devices) {
 navigator.mediaDevices.enumerateDevices().then(addDevices)
 
 function mirror() {
+    //kill any active stream (when we switch cameras)
+    if (window.stream) {
+        window.stream.getTracks().forEach(track => {
+            track.stop();
+        });
+    }
     //use default camera until one is selected
     let constraints = {facingMode: "user" }
     if(source.value != "") {
