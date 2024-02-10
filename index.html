@@ -27,7 +27,8 @@ function addDevices(devices) {
             }
         });
     }
-navigator.mediaDevices.enumerateDevices().then(addDevices)
+//IOS wants permissions first
+// navigator.mediaDevices.enumerateDevices().then(addDevices)
 
 function mirror() {
     //kill any active stream (when we switch cameras)
@@ -44,6 +45,8 @@ function mirror() {
     window.navigator.mediaDevices.getUserMedia({ video: constraints, audio: false })
     .then(stream => {
         webcam.srcObject = stream;
+        //we have permission, so enumerate devices
+        navigator.mediaDevices.enumerateDevices().then(addDevices);
     })
     .catch(error => {
         alert(error);
